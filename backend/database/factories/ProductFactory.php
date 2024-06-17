@@ -17,9 +17,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $reservation_ids = Reservation::all()->pluck('id')->all();
         return [
-            'reservation_id' => fake()->randomElement($reservation_ids),
             'name' => fake()->randomElement(['Pane', 'Pizza', 'Calzone', 'Fagottino', 'Arancino']),
             'category' => fake()->words(1, true),
             'weight' => rand(500, 1500),

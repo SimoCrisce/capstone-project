@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
@@ -11,9 +12,13 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($category = null)
     {
-        $products = Product::get();
+        if ($category) {
+            $products = Product::where('category', $category)->get();
+        } else {
+            $products = Product::get();
+        }
         return $products;
     }
 
@@ -28,9 +33,15 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $new_product = new Product();
+        $new_product->name = $data['name'];
+        $new_product->category = $data['category'];
+        $new_product->weight = $data['weight'];
+        $new_product->price = $data['price'];
+        $new_product->save();
     }
 
     /**

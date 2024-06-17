@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reservation_id')->constrained();
             $table->string('name', 50);
             $table->string('category', 50);
             $table->integer('weight')->nullable();

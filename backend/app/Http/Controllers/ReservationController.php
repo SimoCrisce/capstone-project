@@ -14,7 +14,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = User::with('reservations', 'reservations.products', 'reservations.products.reviews')->get();
+        $reservations = Reservation::get();
         return $reservations;
     }
 
