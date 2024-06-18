@@ -13,11 +13,13 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { loginAction } from "./redux/actions";
 import GuestRoutes from "./components/GuestRoutes";
-import Canvas from "./components/Canvas";
+import Cart from "./components/Cart";
 
 function App() {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
+
+  const products = [];
 
   const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
@@ -37,12 +39,12 @@ function App() {
     loaded && (
       <BrowserRouter>
         <MyNav handleShow={handleShow} />
-        <Canvas show={show} handleClose={handleClose} />
+        <Cart show={show} products={products} handleClose={handleClose} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/add" element={<AddProduct />} />
-          <Route path="/product/:id" element={<SingleProduct />} />
+          <Route path="/product/:id" element={<SingleProduct handleShow={handleShow} products={products} />} />
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

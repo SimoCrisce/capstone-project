@@ -8,17 +8,21 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AddReview from "./AddReview";
 import Reviews from "./Reviews";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCartAction } from "../redux/actions";
 
-const SingleProduct = function () {
+const SingleProduct = function ({ handleShow, products }) {
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const cart = useSelector((state) => state.cart.content);
   const productFetch = () => {
     axios.get("/api/v1/product/" + id).then((data) => setProduct(data.data.data));
   };
   useEffect(() => productFetch(), []);
-  console.log(amount);
 
   return (
     <Container>
@@ -48,7 +52,16 @@ const SingleProduct = function () {
               </Button>
             </div>
             <p className="my-1">Totale: €{(amount * product.price).toFixed(2)}</p>
-            <Button variant="success">Aggiungi all'ordine</Button>
+            <Button
+              variant="success"
+              onClick={() => {
+                dispatch(addToCartAction(product));
+                cart.length === 0 && handleShow();
+                localStorage.setItem("cart", JSON.stringify(products));
+              }}
+            >
+              Aggiungi all'ordine
+            </Button>
           </Col>
           <Col xs={12}>
             <div className="d-flex justify-content-between align-items-center">
