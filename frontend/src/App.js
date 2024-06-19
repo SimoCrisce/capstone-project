@@ -19,7 +19,11 @@ function App() {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
 
-  const products = [];
+  const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const [cart, setCart] = useState(initialCart);
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
@@ -39,12 +43,12 @@ function App() {
     loaded && (
       <BrowserRouter>
         <MyNav handleShow={handleShow} />
-        <Cart show={show} products={products} handleClose={handleClose} />
+        <Cart show={show} handleClose={handleClose} cart={cart} setCart={setCart} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/add" element={<AddProduct />} />
-          <Route path="/product/:id" element={<SingleProduct handleShow={handleShow} products={products} />} />
+          <Route path="/product/:id" element={<SingleProduct cart={cart} setCart={setCart} />} />
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

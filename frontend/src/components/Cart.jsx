@@ -1,15 +1,14 @@
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useDispatch, useSelector } from "react-redux";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { TrashFill } from "react-bootstrap-icons";
-import { removeFromCartAction } from "../redux/actions";
 
-const Cart = function ({ show, handleClose, products }) {
-  const cart = useSelector((state) => state.cart.content);
-  const dispatch = useDispatch();
-  const cartProducts = products.push(JSON.parse(localStorage.getItem("cart")));
-  console.log(cartProducts);
+const Cart = function ({ show, handleClose, cart, setCart }) {
+  const removeElement = (i) => {
+    const updatedCart = [...cart];
+    updatedCart.splice(i, 1);
+    setCart(updatedCart);
+  };
 
   return (
     <Offcanvas placement="end" show={show} onHide={handleClose}>
@@ -18,7 +17,7 @@ const Cart = function ({ show, handleClose, products }) {
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-column justify-content-between">
         <div>
-          {products.map((product, i) => (
+          {cart.map((product, i) => (
             <ListGroup className="mb-2" key={i}>
               <ListGroup.Item className="d-flex justify-content-between align-items-center">
                 <div className="d-flex gap-2 align-items-center">
@@ -27,18 +26,26 @@ const Cart = function ({ show, handleClose, products }) {
                     <h6>
                       {product.name} {product.weight && product.weight + "g"}
                     </h6>
-                    <span>€{product.price}</span>
+                    <span>
+                      €{product.price * product.amount} ({product.amount} pezzi)
+                    </span>
                   </div>
                 </div>
-                <Button variant="danger" onClick={() => dispatch(removeFromCartAction(i))}>
+
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    removeElement(i);
+                  }}
+                >
                   <TrashFill />
                 </Button>
               </ListGroup.Item>
             </ListGroup>
           ))}
           <p>
-            TOTALE PRODOTTI: {cart.length} <br />
-            TOTALE: €{cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.price), 0)}
+            TOTALE PRODOTTI: {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.amount), 0)} <br />
+            TOTALE: €{cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.price * currentValue.amount), 0)}
           </p>
         </div>
         <Button variant="success">Procedi all'acquisto</Button>

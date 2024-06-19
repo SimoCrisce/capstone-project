@@ -8,17 +8,19 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AddReview from "./AddReview";
 import Reviews from "./Reviews";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCartAction } from "../redux/actions";
 
-const SingleProduct = function ({ handleShow, products }) {
+const SingleProduct = function ({ cart, setCart }) {
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const { id } = useParams();
-  const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state.cart.content);
+  const addElement = () => {
+    const newProduct = { ...product, amount };
+    const updatedCart = [...cart, newProduct];
+    setCart(updatedCart);
+  };
+
   const productFetch = () => {
     axios.get("/api/v1/product/" + id).then((data) => setProduct(data.data.data));
   };
@@ -36,7 +38,7 @@ const SingleProduct = function ({ handleShow, products }) {
             <Badge bg="dark">{product.category}</Badge>
             <h5 className="text-body-tertiary my-1">Prezzo: €{product.price}</h5>
             <div className="d-flex align-items-center">
-              <Button variant="outline-dark" className="rounded-2" onClick={() => setAmount(amount - 1)}>
+              <Button variant="outline-dark" className="rounded-2" onClick={() => amount > 1 && setAmount(amount - 1)}>
                 -
               </Button>
               <input
@@ -52,14 +54,7 @@ const SingleProduct = function ({ handleShow, products }) {
               </Button>
             </div>
             <p className="my-1">Totale: €{(amount * product.price).toFixed(2)}</p>
-            <Button
-              variant="success"
-              onClick={() => {
-                dispatch(addToCartAction(product));
-                cart.length === 0 && handleShow();
-                localStorage.setItem("cart", JSON.stringify(products));
-              }}
-            >
+            <Button variant="success" onClick={addElement}>
               Aggiungi all'ordine
             </Button>
           </Col>
