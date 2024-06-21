@@ -2,6 +2,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { TrashFill } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 const Cart = function ({ show, handleClose, cart, setCart }) {
   const removeElement = (i) => {
@@ -43,12 +44,19 @@ const Cart = function ({ show, handleClose, cart, setCart }) {
               </ListGroup.Item>
             </ListGroup>
           ))}
-          <p>
-            TOTALE PRODOTTI: {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.amount), 0)} <br />
-            TOTALE: €{cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.price * currentValue.amount), 0)}
-          </p>
+          {cart.length !== 0 ? (
+            <p>
+              TOTALE PRODOTTI: {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.amount), 0)} <br />
+              TOTALE: €
+              {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.price * currentValue.amount), 0)}
+            </p>
+          ) : (
+            <p className="text-center text-secondary fw-bold">IL CARRELLO È VUOTO</p>
+          )}
         </div>
-        <Button variant="success">Procedi all'acquisto</Button>
+        <Link to="/purchase">
+          <div className="btn btn-success">Procedi all'acquisto</div>
+        </Link>
       </Offcanvas.Body>
     </Offcanvas>
   );

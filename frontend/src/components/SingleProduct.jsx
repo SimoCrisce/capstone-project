@@ -19,6 +19,14 @@ const SingleProduct = function ({ cart, setCart }) {
     const newProduct = { ...product, amount };
     const updatedCart = [...cart, newProduct];
     setCart(updatedCart);
+    // setCart((prevCart) => {
+    //   const doesProductExist = prevCart.find((product) => product.id === productId);
+    //   if (doesProductExist) {
+    //     return prevCart.map((product) => (product.id === productId ? { ...product, amount: prevCart.qty } : product));
+    //   } else {
+    //     return [...prevCart, { id: productId, qty }];
+    //   }
+    // });
   };
 
   const productFetch = () => {
@@ -54,7 +62,7 @@ const SingleProduct = function ({ cart, setCart }) {
               </Button>
             </div>
             <p className="my-1">Totale: €{(amount * product.price).toFixed(2)}</p>
-            <Button variant="success" onClick={addElement}>
+            <Button variant="success" onClick={() => addElement()}>
               Aggiungi all'ordine
             </Button>
           </Col>

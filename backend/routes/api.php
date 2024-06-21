@@ -16,6 +16,8 @@ Route::name('api.v1.')->prefix('v1')->group(function() {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::get('/reviews/{id}', [ReviewController::class, 'show'])->name('reviews.show');
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');

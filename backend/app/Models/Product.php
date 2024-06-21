@@ -13,7 +13,7 @@ class Product extends Model
 
     public function reservations(): BelongsToMany
     {
-        return $this->belongsToMany(Reservation::class);
+        return $this->belongsToMany(Reservation::class)->withPivot('amount');
     }
 
     public function reviews(): HasMany
