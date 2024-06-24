@@ -11,6 +11,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function reservations(): BelongsToMany
     {
         return $this->belongsToMany(Reservation::class)->withPivot('amount');

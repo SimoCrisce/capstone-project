@@ -15,6 +15,9 @@ class ReservationController extends Controller
      * Display a listing of the resource.
      */
 
+
+    //  $reservation->products()->attach(fake()->randomElement($product_ids), ['amount' => rand(1, 100)]);
+
     //  public function reserve($id)
     //  {
     //      Auth::user()->courses()->attach($id, ['status' => 'pending']);
@@ -47,6 +50,7 @@ class ReservationController extends Controller
         $new_reservation->time = $data['time'];
         $new_reservation->description = $data['description'];
         $new_reservation->save();
+        // dd(Reservation::find(1)->products()->attach(1, ['amount' => 5]));
     }
 
     /**

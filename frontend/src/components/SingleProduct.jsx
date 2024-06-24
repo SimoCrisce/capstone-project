@@ -8,19 +8,24 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AddReview from "./AddReview";
 import Reviews from "./Reviews";
+import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
 
 const SingleProduct = function ({ cart, setCart }) {
   const [amount, setAmount] = useState(1);
+  const [products, setProducts] = useState(null);
   const [product, setProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [categorized, setCategorized] = useState(null);
   const { id } = useParams();
 
   const addElement = () => {
     const newProduct = { ...product, amount };
     const updatedCart = [...cart, newProduct];
     setCart(updatedCart);
+    // const doesProductExist = cart.find((product) => product.id === 2);
+    // console.log(doesProductExist);
     // setCart((prevCart) => {
-    //   const doesProductExist = prevCart.find((product) => product.id === productId);
     //   if (doesProductExist) {
     //     return prevCart.map((product) => (product.id === productId ? { ...product, amount: prevCart.qty } : product));
     //   } else {
@@ -29,10 +34,33 @@ const SingleProduct = function ({ cart, setCart }) {
     // });
   };
 
-  const productFetch = () => {
-    axios.get("/api/v1/product/" + id).then((data) => setProduct(data.data.data));
+  const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   };
-  useEffect(() => productFetch(), []);
+
+  const categorizedFetch = (category) => {
+    axios.get("/api/v1/products/" + category).then((data) => setCategorized(shuffle(data.data)));
+  };
+
+  const productsFetch = () => {
+    axios.get("/api/v1/products").then((data) => setProducts(shuffle(data.data)));
+  };
+
+  const productFetch = () => {
+    axios.get("/api/v1/product/" + id).then((data) => {
+      setProduct(data.data.data);
+      // setCategory(data.data.data.category);
+      categorizedFetch(data.data.data.category);
+    });
+  };
+  useEffect(() => {
+    productFetch();
+    productsFetch();
+  }, [id]);
 
   return (
     <Container>
@@ -46,7 +74,12 @@ const SingleProduct = function ({ cart, setCart }) {
             <Badge bg="dark">{product.category}</Badge>
             <h5 className="text-body-tertiary my-1">Prezzo: €{product.price}</h5>
             <div className="d-flex align-items-center">
-              <Button variant="outline-dark" className="rounded-2" onClick={() => amount > 1 && setAmount(amount - 1)}>
+              <Button
+                variant="outline-dark"
+                className="rounded-2 rounded-end-0 amount-btn"
+                onClick={() => amount > 1 && setAmount(amount - 1)}
+                style={{ borderRight: "0" }}
+              >
                 -
               </Button>
               <input
@@ -57,7 +90,12 @@ const SingleProduct = function ({ cart, setCart }) {
                 max={1000}
                 onChange={(e) => setAmount(parseInt(e.target.value))}
               />
-              <Button variant="outline-dark" className="rounded-2" onClick={() => setAmount(amount + 1)}>
+              <Button
+                variant="outline-dark"
+                className="rounded-2 rounded-start-0"
+                onClick={() => setAmount(amount + 1)}
+                style={{ borderLeft: "0" }}
+              >
                 +
               </Button>
             </div>
@@ -66,6 +104,52 @@ const SingleProduct = function ({ cart, setCart }) {
               Aggiungi all'ordine
             </Button>
           </Col>
+          <h2 className="my-3">Prodotti correlati</h2>
+          {categorized && (
+            <Row>
+              {categorized
+                .filter((p) => p.id.toString() !== id)
+                .slice(0, 4)
+                .map((product) => (
+                  <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
+                    <Card>
+                      <Card.Img variant="top" src="https://placedog.net/500" />
+                      <Card.Body>
+                        <Card.Title>{product.name}</Card.Title>
+                        <Card.Text>
+                          <Link to={`/product/${product.id}`} className="text-decoration-none">
+                            <div>Dettagli</div>
+                          </Link>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          )}
+          <h2 className="my-3">Altri prodotti</h2>
+          {products && (
+            <Row>
+              {products
+                .filter((p) => p.id.toString() !== id)
+                .slice(0, 4)
+                .map((product) => (
+                  <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
+                    <Card>
+                      <Card.Img variant="top" src="https://placedog.net/500" />
+                      <Card.Body>
+                        <Card.Title>{product.name}</Card.Title>
+                        <Card.Text>
+                          <Link to={`/product/${product.id}`} className="text-decoration-none">
+                            <div>Dettagli</div>
+                          </Link>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          )}
           <Col xs={12}>
             <div className="d-flex justify-content-between align-items-center">
               <h3 className="my-3">Recensioni</h3>

@@ -25,6 +25,11 @@
                 <mxCell id="10" style="edgeStyle=none;html=1;" parent="1" source="6" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
+                <mxCell id="17" style="edgeStyle=none;html=1;" edge="1" parent="1" source="6">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="425" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="6" value="reservations&lt;br&gt;user_id&lt;br&gt;date&lt;br&gt;time&lt;br&gt;description" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="365" y="180" width="120" height="80" as="geometry"/>
                 </mxCell>
@@ -46,6 +51,9 @@
                         <mxPoint x="160" y="150" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="cake&lt;br&gt;text&lt;br&gt;flavor&lt;br&gt;img (nullable)&lt;br&gt;weight" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="300" width="120" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

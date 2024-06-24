@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('category', 50);
             $table->integer('weight')->nullable();
             $table->decimal('price', 5, 2);
-            $table->timestamps();
         });
     }
 

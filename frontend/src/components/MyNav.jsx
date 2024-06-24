@@ -28,6 +28,9 @@ const MyNav = function ({ handleShow }) {
           <Link className="text-decoration-none" to="/products">
             <div className="nav-link">Prodotti</div>
           </Link>
+          <Link className="text-decoration-none" to="/cake">
+            <div className="nav-link">Torta</div>
+          </Link>
           <Link className="text-decoration-none">
             <div className="nav-link" onClick={handleShow}>
               Carrello

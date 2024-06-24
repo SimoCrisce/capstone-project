@@ -20,7 +20,6 @@ const PurchasePage = function ({ handleClose, cart, setCart }) {
     postForm();
   };
 
-  console.log(cart);
   const postForm = () => {
     axios.post("/api/v1/reservations", form);
   };

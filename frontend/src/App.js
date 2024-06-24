@@ -15,6 +15,7 @@ import { loginAction } from "./redux/actions";
 import GuestRoutes from "./components/GuestRoutes";
 import Cart from "./components/Cart";
 import PurchasePage from "./components/PurchasePage";
+import Cake from "./components/Cake";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -50,6 +51,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/product/add" element={<AddProduct />} />
           <Route path="/product/:id" element={<SingleProduct cart={cart} setCart={setCart} />} />
+          <Route path="/cake" element={<Cake />} />
           <Route path="/purchase" element={<PurchasePage handleClose={handleClose} cart={cart} setCart={setCart} />} />
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<Login />} />
