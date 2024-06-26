@@ -4,10 +4,12 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const AddProduct = function () {
+const EditProduct = function () {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -32,10 +34,10 @@ const AddProduct = function () {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postProduct();
-    navigate("/products");
+    editProduct();
+    navigate("/product/" + id);
   };
-  const postProduct = () => {
+  const editProduct = () => {
     const formD = new FormData();
     formD.append("name", form.name);
     formD.append("category", form.category);
@@ -43,13 +45,29 @@ const AddProduct = function () {
     formD.append("weight", form.weight);
     img && formD.append("img", img);
 
-    axios.post("/api/v1/products", formD);
+    axios.post("/api/v1/products/" + id + "?_method=PUT", formD);
   };
+
+  const getProduct = () => {
+    axios.get("/api/v1/product/" + id).then((res) => {
+      setForm({
+        name: res.data.data.name,
+        category: res.data.data.category,
+        price: res.data.data.price,
+        weight: res.data.data.weight,
+        img: "",
+      });
+      setImg(res.data.data.img);
+    });
+    // attempt to assign property img on null
+  };
+
+  useEffect(getProduct, []);
   return (
     <Container>
       <Row>
         <Col xs={6}>
-          <h2>Aggiungi un nuovo prodotto</h2>
+          <h2>Modifica un prodotto</h2>
           <Form onSubmit={handleSubmit} className="mb-3">
             <Row>
               <Col xs={6}>
@@ -100,12 +118,12 @@ const AddProduct = function () {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Immagine</Form.Label>
-                  <Form.Control type="file" onChange={(e) => updateImageField(e)} name="img" />
+                  <Form.Control type="file" onChange={(e) => updateImageField(e)} value={form.img} name="img" />
                 </Form.Group>
               </Col>
             </Row>
-            <Button variant="primary" type="submit">
-              Invia
+            <Button variant="success" type="submit">
+              Modifica
             </Button>
           </Form>
         </Col>
@@ -114,4 +132,4 @@ const AddProduct = function () {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

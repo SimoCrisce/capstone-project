@@ -17,12 +17,8 @@ class ReservationController extends Controller
 
 
     //  $reservation->products()->attach(fake()->randomElement($product_ids), ['amount' => rand(1, 100)]);
-
-    //  public function reserve($id)
-    //  {
     //      Auth::user()->courses()->attach($id, ['status' => 'pending']);
     //      return redirect()->back();
-    //  }
 
     public function index()
     {
@@ -48,9 +44,14 @@ class ReservationController extends Controller
         $new_reservation->user_id = Auth::id();
         $new_reservation->date = $data['date'];
         $new_reservation->time = $data['time'];
-        $new_reservation->description = $data['description'];
+        $new_reservation->notes = $data['notes'];
+        $new_reservation->phone = $data['phone'];
         $new_reservation->save();
-        // dd(Reservation::find(1)->products()->attach(1, ['amount' => 5]));
+
+        $products = $request->products;
+        foreach($products as $product) {
+            $new_reservation->products()->attach($product['id'], ['amount' => $product['amount']]);
+        }
     }
 
     /**

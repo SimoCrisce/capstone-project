@@ -8,7 +8,9 @@ const PurchasePage = function ({ handleClose, cart, setCart }) {
   const [form, setForm] = useState({
     date: "",
     time: "",
-    description: "",
+    notes: "",
+    phone: "",
+    products: cart,
   });
 
   useEffect(() => {
@@ -18,10 +20,12 @@ const PurchasePage = function ({ handleClose, cart, setCart }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postForm();
+    localStorage.setItem("cart", JSON.stringify([]));
+    setCart([]);
   };
 
   const postForm = () => {
-    axios.post("/api/v1/reservations", form);
+    axios.post("/api/v1/reservations", form).catch((error) => console.log(error.response.data.message));
   };
   return (
     <Container>
@@ -59,6 +63,19 @@ const PurchasePage = function ({ handleClose, cart, setCart }) {
               setForm((state) => ({
                 ...state,
                 description: e.target.value,
+              }))
+            }
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">Recapito telefonico</label> <br />
+          <input
+            type="tel"
+            id="phone"
+            onChange={(e) =>
+              setForm((state) => ({
+                ...state,
+                phone: e.target.value,
               }))
             }
           />

@@ -28,7 +28,7 @@ const Cart = function ({ show, handleClose, cart, setCart }) {
                       {product.name} {product.weight && product.weight + "g"}
                     </h6>
                     <span>
-                      €{product.price * product.amount} ({product.amount} pezzi)
+                      €{(product.price * product.amount).toFixed(2)} ({product.amount} pezzi)
                     </span>
                   </div>
                 </div>
@@ -48,7 +48,8 @@ const Cart = function ({ show, handleClose, cart, setCart }) {
             <p>
               TOTALE PRODOTTI: {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.amount), 0)} <br />
               TOTALE: €
-              {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.price * currentValue.amount), 0)}
+              {/* {cart.reduce((acc, currentValue) => acc + (currentValue.price * currentValue.amount, 0).toFixed(2), 0)} */}
+              {cart.reduce((acc, currentValue) => acc + currentValue.price * currentValue.amount, 0).toFixed(2)}
             </p>
           ) : (
             <p className="text-center text-secondary fw-bold">IL CARRELLO È VUOTO</p>

@@ -19,19 +19,18 @@ const SingleProduct = function ({ cart, setCart }) {
   const [categorized, setCategorized] = useState(null);
   const { id } = useParams();
 
-  const addElement = () => {
+  const addElement = (productId) => {
     const newProduct = { ...product, amount };
     const updatedCart = [...cart, newProduct];
     setCart(updatedCart);
-    // const doesProductExist = cart.find((product) => product.id === 2);
-    // console.log(doesProductExist);
-    // setCart((prevCart) => {
-    //   if (doesProductExist) {
-    //     return prevCart.map((product) => (product.id === productId ? { ...product, amount: prevCart.qty } : product));
-    //   } else {
-    //     return [...prevCart, { id: productId, qty }];
-    //   }
-    // });
+    const doesProductExist = cart.find((product) => product.id === productId);
+    if (doesProductExist) {
+      setCart(
+        cart.map((product) => (product.id === productId ? { ...product, amount: product.amount + amount } : product))
+      );
+    } else {
+      setCart([...cart, { ...product, amount: 1 }]);
+    }
   };
 
   const shuffle = (array) => {
@@ -62,12 +61,13 @@ const SingleProduct = function ({ cart, setCart }) {
     productsFetch();
   }, [id]);
 
+  console.log(product);
   return (
     <Container>
       {product && (
         <Row>
           <Col xs={12} lg={6}>
-            <img src="https://placedog.net/700" width="100%" alt="" />
+            <img src={product.img} width="100%" alt="" />
           </Col>
           <Col xs={12} lg={6}>
             <h3 className="my-1">{product.name}</h3>
@@ -100,7 +100,7 @@ const SingleProduct = function ({ cart, setCart }) {
               </Button>
             </div>
             <p className="my-1">Totale: €{(amount * product.price).toFixed(2)}</p>
-            <Button variant="success" onClick={() => addElement()}>
+            <Button variant="success" onClick={() => addElement(product.id)}>
               Aggiungi all'ordine
             </Button>
           </Col>
@@ -113,7 +113,7 @@ const SingleProduct = function ({ cart, setCart }) {
                 .map((product) => (
                   <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
                     <Card>
-                      <Card.Img variant="top" src="https://placedog.net/500" />
+                      <Card.Img variant="top" src={product.img ? product.img : "https://placedog.net/500"} />
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
                         <Card.Text>

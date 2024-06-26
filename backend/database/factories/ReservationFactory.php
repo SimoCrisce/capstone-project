@@ -22,7 +22,8 @@ class ReservationFactory extends Factory
             'user_id' => fake()->randomElement($user_ids),
             'date' => fake()->date(),
             'time' => fake()->time(),
-            'description' => fake()->words(rand(5, 10), true)
+            'notes' => fake()->words(rand(5, 10), true),
+            'phone' => rand(3000000000, 3999999999)
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
@@ -12,6 +13,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index($category = null)
     {
         if ($category) {
@@ -21,7 +23,7 @@ class ProductController extends Controller
         }
         return $products;
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -29,18 +31,32 @@ class ProductController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
+    // $file_path = $data['img'] ? Storage::put('/images', $data['img']) : null;
+    // $file_path = $data['img'] ? Storage::disk('local')->put('/images', $data['img']) : null;
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'category' => 'required|string|max:50',
+            'weight' => 'nullable|integer',
+            'price' => 'required|numeric',
+            'img' => 'nullable|image',
+        ]);
+
         $data = $request->all();
         $new_product = new Product();
         $new_product->name = $data['name'];
         $new_product->category = $data['category'];
         $new_product->weight = $data['weight'];
         $new_product->price = $data['price'];
+        if($request['img']){
+            $file_path = Storage::put('/images', $request['img']);
+            $new_product->img = '/storage/' . $file_path;
+        }
         $new_product->save();
     }
 
@@ -67,9 +83,19 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $product = Product::find($id);
+        $product->name = $data['name'];
+        $product->category = $data['category'];
+        $product->weight = $data['weight'];
+        $product->price = $data['price'];
+        if($request['img']){
+            $file_path = Storage::put('/images', $request['img']);
+            $new_product->img = '/storage/' . $file_path;
+        }
+        $product->update();
     }
 
     /**

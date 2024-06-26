@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('cakes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('date', 15);
-            $table->string('time', 10);
-            $table->string('notes')->nullable();
-            $table->string('phone', 20);
-            $table->timestamps();
+            $table->foreignId('reservation_id')->constrained();
+            $table->string('text', 200);
+            $table->string('flavor', 200);
+            $table->mediumInteger('weight')->unsigned();
+            $table->string('img');
+            // $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('cakes');
     }
 };

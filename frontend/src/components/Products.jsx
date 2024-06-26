@@ -51,23 +51,30 @@ const Products = function () {
       </div>
       <Row>
         {products ? (
-          products.map((product) => (
-            <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
-              <div className="card">
-                <img src="https://placedog.net/500" className="card-img-top" alt="..." />
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <h5 className="card-title">{product.id + " " + product.name}</h5>
-                    <h5 className="card-title">€{product.price}</h5>
+          products.map((product) => {
+            return (
+              <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+                <div className="card">
+                  <img src={product.img} className="card-img-top" alt="..." />
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between">
+                      <h5 className="card-title">{product.name}</h5>
+                      <h5 className="card-title">€{product.price}</h5>
+                    </div>
+                    <p className="card-text"></p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <Link className="text-decoration-none" to={`/product/${product.id}`}>
+                        Dettagli
+                      </Link>
+                      <Link className="btn btn-success" to={`/product/edit/${product.id}`}>
+                        Modifica
+                      </Link>
+                    </div>
                   </div>
-                  <p className="card-text"></p>
-                  <Link className="text-decoration-none" to={`/product/${product.id}`}>
-                    Dettagli
-                  </Link>
                 </div>
-              </div>
-            </Col>
-          ))
+              </Col>
+            );
+          })
         ) : (
           <div className="d-flex justify-content-center align-items-center" style={{ height: "calc(100vh - 358.5px)" }}>
             <Spinner className="mx-auto" animation="border" />

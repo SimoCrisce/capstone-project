@@ -14,6 +14,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::name('api.v1.')->prefix('v1')->group(function() {
     Route::get('/products/{category?}', [ProductController::class, 'index'])->name('products.index');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
