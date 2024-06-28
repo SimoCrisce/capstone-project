@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
             'category' => 'bread',
             'weight' => 250,
             'price' => 1,
-            'img' => 'storage\images\fIDGjJE2obZ3sp6Nv0wV40ohJPffVaFG0wT6Fg9z.jpg'
+            'img' => '/storage\images\fIDGjJE2obZ3sp6Nv0wV40ohJPffVaFG0wT6Fg9z.jpg'
         ]);
         Product::create([
             'name' => 'Schiacciata',
@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
             'name' => 'Trancio di pizza',
             'category' => 'snack',
             'price' => 1.80,
-            'img' => 'storage\images\4rvy6cBzdv6fyIGOVL63RxYMRtVbYfQIbwkhlx64.jpg'
+            'img' => '/storage\images\4rvy6cBzdv6fyIGOVL63RxYMRtVbYfQIbwkhlx64.jpg'
         ]);
         Product::create([
             'name' => 'Fagottino al salame',

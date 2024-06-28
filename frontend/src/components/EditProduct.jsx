@@ -55,11 +55,9 @@ const EditProduct = function () {
         category: res.data.data.category,
         price: res.data.data.price,
         weight: res.data.data.weight,
-        img: "",
       });
       setImg(res.data.data.img);
     });
-    // attempt to assign property img on null
   };
 
   useEffect(getProduct, []);
@@ -85,7 +83,7 @@ const EditProduct = function () {
               <Col xs={6}>
                 <Form.Label>Categoria*</Form.Label>
                 <Form.Select onChange={(e) => updateInputValue(e)} name="category">
-                  <option disabled>Seleziona una categoria</option>
+                  <option>Seleziona una categoria</option>
                   <option value="bread">Pane</option>
                   <option value="snack">Tavola calda</option>
                   <option value="pastry">Pasticceria</option>

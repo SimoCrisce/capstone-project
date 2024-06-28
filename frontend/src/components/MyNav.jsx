@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../redux/actions";
 import axios from "axios";
+import Badge from "react-bootstrap/Badge";
 
-const MyNav = function ({ handleShow }) {
+const MyNav = function ({ handleShow, cart }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.name);
@@ -18,9 +19,9 @@ const MyNav = function ({ handleShow }) {
       .then(() => navigate("/login"));
   };
   return (
-    <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
+    <Navbar bg="dark" data-bs-theme="dark" className="mb-3 justify-content-evenly">
       <Container fluid>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Navbar.Brand href="#home">Criscenti</Navbar.Brand>
         <Nav>
           <Link className="text-decoration-none" to="/">
             <div className="nav-link">Home</div>
@@ -28,15 +29,24 @@ const MyNav = function ({ handleShow }) {
           <Link className="text-decoration-none" to="/products">
             <div className="nav-link">Prodotti</div>
           </Link>
-          <Link className="text-decoration-none" to="/cake">
+          {/* <Link className="text-decoration-none" to="/cake">
             <div className="nav-link">Torta</div>
-          </Link>
-          <Link className="text-decoration-none">
+          </Link> */}
+          <Link className="text-decoration-none position-relative">
             <div className="nav-link" onClick={handleShow}>
               Carrello
             </div>
+            {cart.length !== 0 && (
+              <Badge bg="danger" pill className="position-absolute top-0" style={{ right: "-10px" }}>
+                {cart.reduce((acc, currentValue) => acc + parseFloat(currentValue.amount), 0)}
+              </Badge>
+            )}
           </Link>
-          {/* <Nav.Link href="#orders">Ordini</Nav.Link> */}
+          {user && (
+            <Link className="text-decoration-none" to="/reservations">
+              <div className="nav-link">Ordini</div>
+            </Link>
+          )}
         </Nav>
         {user ? (
           <Nav>

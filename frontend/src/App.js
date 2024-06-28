@@ -17,6 +17,10 @@ import Cart from "./components/Cart";
 import PurchasePage from "./components/PurchasePage";
 import Cake from "./components/Cake";
 import EditProduct from "./components/EditProduct";
+import Reservations from "./components/Reservations";
+import SingleReservation from "./components/SingleReservation";
+import AuthRoutes from "./components/AuthRoutes";
+import AdminRoutes from "./components/AdminRoutes";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -45,19 +49,28 @@ function App() {
   return (
     loaded && (
       <BrowserRouter>
-        <MyNav handleShow={handleShow} />
+        <MyNav handleShow={handleShow} cart={cart} />
         <Cart show={show} handleClose={handleClose} cart={cart} setCart={setCart} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product/add" element={<AddProduct />} />
-          <Route path="/product/edit/:id" element={<EditProduct />} />
           <Route path="/product/:id" element={<SingleProduct cart={cart} setCart={setCart} />} />
           <Route path="/cake" element={<Cake />} />
-          <Route path="/purchase" element={<PurchasePage handleClose={handleClose} cart={cart} setCart={setCart} />} />
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+          </Route>
+          <Route element={<AdminRoutes />}>
+            <Route path="/product/add" element={<AddProduct />} />
+            <Route path="/product/edit/:id" element={<EditProduct />} />
+          </Route>
+          <Route element={<AuthRoutes />}>
+            <Route
+              path="/purchase"
+              element={<PurchasePage handleClose={handleClose} cart={cart} setCart={setCart} />}
+            />
+            <Route path="/reservations" element={<Reservations />} />
+            <Route path="/reservation/:id" element={<SingleReservation />} />
           </Route>
         </Routes>
         <MyFooter />

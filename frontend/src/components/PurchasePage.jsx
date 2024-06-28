@@ -20,12 +20,17 @@ const PurchasePage = function ({ handleClose, cart, setCart }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postForm();
-    localStorage.setItem("cart", JSON.stringify([]));
-    setCart([]);
   };
 
   const postForm = () => {
-    axios.post("/api/v1/reservations", form).catch((error) => console.log(error.response.data.message));
+    axios
+      .post("/api/v1/reservations", form, {
+        validateStatus: function (status) {
+          status >= 200 && status <= 300 && localStorage.setItem("cart", JSON.stringify([])) && setCart([]);
+          return status;
+        },
+      })
+      .catch((error) => console.log(error.response.data.message));
   };
   return (
     <Container>

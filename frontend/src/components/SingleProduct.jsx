@@ -10,6 +10,7 @@ import AddReview from "./AddReview";
 import Reviews from "./Reviews";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SingleProduct = function ({ cart, setCart }) {
   const [amount, setAmount] = useState(1);
@@ -17,7 +18,14 @@ const SingleProduct = function ({ cart, setCart }) {
   const [product, setProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [categorized, setCategorized] = useState(null);
+  const [unloggedMessage, setUnloggedMessage] = useState(false);
+  if (unloggedMessage)
+    setTimeout(() => {
+      setUnloggedMessage(false);
+    }, 5000);
   const { id } = useParams();
+
+  const user = useSelector((state) => state.user.name);
 
   const addElement = (productId) => {
     const newProduct = { ...product, amount };
@@ -29,7 +37,7 @@ const SingleProduct = function ({ cart, setCart }) {
         cart.map((product) => (product.id === productId ? { ...product, amount: product.amount + amount } : product))
       );
     } else {
-      setCart([...cart, { ...product, amount: 1 }]);
+      setCart([...cart, { ...product, amount: amount }]);
     }
   };
 
@@ -67,7 +75,7 @@ const SingleProduct = function ({ cart, setCart }) {
       {product && (
         <Row>
           <Col xs={12} lg={6}>
-            <img src={product.img} width="100%" alt="" />
+            <img src={product.img} width="100%" height="500px" alt="" />
           </Col>
           <Col xs={12} lg={6}>
             <h3 className="my-1">{product.name}</h3>
@@ -100,9 +108,10 @@ const SingleProduct = function ({ cart, setCart }) {
               </Button>
             </div>
             <p className="my-1">Totale: €{(amount * product.price).toFixed(2)}</p>
-            <Button variant="success" onClick={() => addElement(product.id)}>
+            <Button variant="success" onClick={() => (user ? addElement(product.id) : setUnloggedMessage(true))}>
               Aggiungi all'ordine
             </Button>
+            {unloggedMessage && <p className="text-danger fw-bold">FAI IL LOGIN PER POTER ORDINARE!</p>}
           </Col>
           <h2 className="my-3">Prodotti correlati</h2>
           {categorized && (
@@ -113,7 +122,7 @@ const SingleProduct = function ({ cart, setCart }) {
                 .map((product) => (
                   <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
                     <Card>
-                      <Card.Img variant="top" src={product.img ? product.img : "https://placedog.net/500"} />
+                      <Card.Img variant="top" height="200px" src={product.img ? product.img : "/not-available.jpg"} />
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
                         <Card.Text>
@@ -136,7 +145,7 @@ const SingleProduct = function ({ cart, setCart }) {
                 .map((product) => (
                   <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
                     <Card>
-                      <Card.Img variant="top" src="https://placedog.net/500" />
+                      <Card.Img variant="top" height="200px" src={product.img ? product.img : "/not-available.jpg"} />
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
                         <Card.Text>

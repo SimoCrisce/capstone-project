@@ -93,7 +93,7 @@ class ProductController extends Controller
         $product->price = $data['price'];
         if($request['img']){
             $file_path = Storage::put('/images', $request['img']);
-            $new_product->img = '/storage/' . $file_path;
+            $product->img = '/storage/' . $file_path;
         }
         $product->update();
     }

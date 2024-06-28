@@ -22,7 +22,7 @@ class ReservationController extends Controller
 
     public function index()
     {
-        $reservations = Reservation::with('products')->get();
+        $reservations = Reservation::with('products', 'user')->get();
         return $reservations;
     }
 
@@ -42,6 +42,7 @@ class ReservationController extends Controller
         $data = $request->all();
         $new_reservation = new Reservation();
         $new_reservation->user_id = Auth::id();
+        if (!$new_reservation->user_id) abort(403);
         $new_reservation->date = $data['date'];
         $new_reservation->time = $data['time'];
         $new_reservation->notes = $data['notes'];
@@ -59,7 +60,7 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        $reservation = Reservation::with('products')->find($id);
+        $reservation = Reservation::with('products', 'user')->find($id);
         return $reservation;
     }
 

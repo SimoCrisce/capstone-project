@@ -22,7 +22,7 @@ const Cart = function ({ show, handleClose, cart, setCart }) {
             <ListGroup className="mb-2" key={i}>
               <ListGroup.Item className="d-flex justify-content-between align-items-center">
                 <div className="d-flex gap-2 align-items-center">
-                  <img src="https://placedog.net/700" width={100} alt="" />
+                  <img src={product.img ? product.img : "/not-available.jpg"} width="90px" height="70px" alt="" />
                   <div>
                     <h6>
                       {product.name} {product.weight && product.weight + "g"}

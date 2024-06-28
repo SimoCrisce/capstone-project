@@ -6,8 +6,10 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+import { useSelector } from "react-redux";
 
 const Products = function () {
+  const user = useSelector((state) => state.user.name);
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
@@ -45,9 +47,11 @@ const Products = function () {
             Pasticceria
           </Button>
         </div>
-        <Link to="/product/add">
-          <div className="btn btn-primary">Aggiungi un nuovo prodotto</div>
-        </Link>
+        {user && user.role === "admin" && (
+          <Link to="/product/add">
+            <div className="btn btn-primary">Aggiungi un nuovo prodotto</div>
+          </Link>
+        )}
       </div>
       <Row>
         {products ? (
@@ -55,19 +59,30 @@ const Products = function () {
             return (
               <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
                 <div className="card">
-                  <img src={product.img} className="card-img-top" alt="..." />
+                  <img
+                    src={product.img ? product.img : "/not-available.jpg"}
+                    height="200px"
+                    className="card-img-top"
+                    alt="..."
+                  />
                   <div className="card-body">
                     <div className="d-flex justify-content-between">
                       <h5 className="card-title">{product.name}</h5>
                       <h5 className="card-title">€{product.price}</h5>
                     </div>
                     <p className="card-text"></p>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <Link className="text-decoration-none" to={`/product/${product.id}`}>
+                    <div
+                      className={`d-flex ${
+                        user && user.role === "admin" ? "justify-content-between" : "justify-content-end"
+                      } align-items-center`}
+                    >
+                      {user && user.role === "admin" && (
+                        <Link className="btn btn-success" to={`/product/edit/${product.id}`}>
+                          Modifica
+                        </Link>
+                      )}
+                      <Link className="btn btn-primary" to={`/product/${product.id}`}>
                         Dettagli
-                      </Link>
-                      <Link className="btn btn-success" to={`/product/edit/${product.id}`}>
-                        Modifica
                       </Link>
                     </div>
                   </div>

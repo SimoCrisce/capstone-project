@@ -67,7 +67,7 @@ const AddProduct = function () {
               <Col xs={6}>
                 <Form.Label>Categoria*</Form.Label>
                 <Form.Select onChange={(e) => updateInputValue(e)} name="category">
-                  <option disabled>Seleziona una categoria</option>
+                  <option>Seleziona una categoria</option>
                   <option value="bread">Pane</option>
                   <option value="snack">Tavola calda</option>
                   <option value="pastry">Pasticceria</option>
