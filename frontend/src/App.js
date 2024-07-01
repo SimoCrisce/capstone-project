@@ -21,6 +21,7 @@ import Reservations from "./components/Reservations";
 import SingleReservation from "./components/SingleReservation";
 import AuthRoutes from "./components/AuthRoutes";
 import AdminRoutes from "./components/AdminRoutes";
+import ReservationSummary from "./components/ReservationSummary";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -38,6 +39,8 @@ function App() {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     axios("/api/user")
@@ -67,10 +70,11 @@ function App() {
           <Route element={<AuthRoutes />}>
             <Route
               path="/purchase"
-              element={<PurchasePage handleClose={handleClose} cart={cart} setCart={setCart} />}
+              element={<PurchasePage handleClose={handleClose} cart={cart} setCart={setCart} setAlert={setAlert} />}
             />
-            <Route path="/reservations" element={<Reservations />} />
+            <Route path="/reservations" element={<Reservations alert={alert} />} />
             <Route path="/reservation/:id" element={<SingleReservation />} />
+            <Route path="/reservation/summary" element={<ReservationSummary />} />
           </Route>
         </Routes>
         <MyFooter />

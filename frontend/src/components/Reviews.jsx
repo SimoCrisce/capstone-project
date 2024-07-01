@@ -4,7 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const Reviews = function ({ reviews, productFetch }) {
-  const user = useSelector((state) => state.user.name);
+  const user = useSelector((state) => state.user);
   return (
     <>
       {reviews.map((review) => {

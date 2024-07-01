@@ -10,7 +10,7 @@ import Badge from "react-bootstrap/Badge";
 const MyNav = function ({ handleShow, cart }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.name);
+  const user = useSelector((state) => state.user);
 
   const logout = () => {
     axios

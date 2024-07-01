@@ -25,7 +25,7 @@ const SingleProduct = function ({ cart, setCart }) {
     }, 5000);
   const { id } = useParams();
 
-  const user = useSelector((state) => state.user.name);
+  const user = useSelector((state) => state.user);
 
   const addElement = (productId) => {
     const newProduct = { ...product, amount };
@@ -69,7 +69,6 @@ const SingleProduct = function ({ cart, setCart }) {
     productsFetch();
   }, [id]);
 
-  console.log(product);
   return (
     <Container>
       {product && (
@@ -78,7 +77,9 @@ const SingleProduct = function ({ cart, setCart }) {
             <img src={product.img} width="100%" height="500px" alt="" />
           </Col>
           <Col xs={12} lg={6}>
-            <h3 className="my-1">{product.name}</h3>
+            <h3 className="my-1">
+              {product.name} {product.weight && product.weight + "g"}
+            </h3>
             <Badge bg="dark">{product.category}</Badge>
             <h5 className="text-body-tertiary my-1">Prezzo: €{product.price}</h5>
             <div className="d-flex align-items-center">

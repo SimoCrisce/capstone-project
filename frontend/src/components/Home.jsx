@@ -20,9 +20,9 @@ const Home = function () {
         <Carousel variant="dark" style={{ height: "500px", width: "500px" }}>
           {products &&
             products.map((product) => (
-              <Carousel.Item>
+              <Carousel.Item key={product.id}>
                 <img style={{ height: "500px", width: "500px" }} src={product.img} alt="" />
-                <Carousel.Caption>
+                <Carousel.Caption style={{ backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: "20px" }}>
                   <h3>{product.name}</h3>
                   <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </Carousel.Caption>

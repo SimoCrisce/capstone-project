@@ -9,7 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { useSelector } from "react-redux";
 
 const Products = function () {
-  const user = useSelector((state) => state.user.name);
+  const user = useSelector((state) => state.user);
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
@@ -67,7 +67,9 @@ const Products = function () {
                   />
                   <div className="card-body">
                     <div className="d-flex justify-content-between">
-                      <h5 className="card-title">{product.name}</h5>
+                      <h5 className="card-title">
+                        {product.name} {product.weight && product.weight + "g"}
+                      </h5>
                       <h5 className="card-title">€{product.price}</h5>
                     </div>
                     <p className="card-text"></p>

@@ -83,8 +83,10 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
+    public function destroy($id)
     {
-        //
+        $user = User::find(Auth::id());
+        $reservation = Reservation::find($id);
+        if($user->id === $reservation->user_id || $user->role === "admin") $reservation->delete();
     }
 }
