@@ -42,10 +42,7 @@ const PurchasePage = function ({ handleClose, cart, setCart, setAlert }) {
   };
   return (
     <Container>
-      <div
-        className="d-flex flex-column align-items-center justify-content-center"
-        style={{ height: "calc(100vh - 72px - 232.8px)" }}
-      >
+      <div className="d-flex flex-column align-items-center justify-content-center container-height">
         <Form onSubmit={handleSubmit}>
           <h2>Quando?</h2>
           <div>

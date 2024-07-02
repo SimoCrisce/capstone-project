@@ -42,7 +42,7 @@ const EditProduct = function () {
     formD.append("name", form.name);
     formD.append("category", form.category);
     formD.append("price", form.price);
-    formD.append("weight", form.weight);
+    form.weight && formD.append("weight", form.weight);
     img && formD.append("img", img);
 
     axios.post("/api/v1/products/" + id + "?_method=PUT", formD);

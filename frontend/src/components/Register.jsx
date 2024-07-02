@@ -38,7 +38,7 @@ const Register = function () {
   };
   return (
     <Container>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center container-height">
         <Col xs={4}>
           <Form onSubmit={handleSubmit} noValidate>
             <div className="mb-3">
@@ -95,7 +95,7 @@ const Register = function () {
                 value={form.password}
               />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="password_confirmation" className="form-label">
                 Conferma Password
               </label>

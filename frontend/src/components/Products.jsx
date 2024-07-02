@@ -15,11 +15,11 @@ const Products = function () {
   useEffect(() => {
     setTimeout(() => {
       axios.get("/api/v1/products").then((data) => setProducts(data.data));
-    }, 1000);
+    }, 500);
   }, []);
 
   return (
-    <Container>
+    <Container className="container-height">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex gap-2">
           <Button
@@ -93,7 +93,7 @@ const Products = function () {
             );
           })
         ) : (
-          <div className="d-flex justify-content-center align-items-center" style={{ height: "calc(100vh - 358.5px)" }}>
+          <div className="d-flex justify-content-center align-items-center container-height">
             <Spinner className="mx-auto" animation="border" />
           </div>
         )}

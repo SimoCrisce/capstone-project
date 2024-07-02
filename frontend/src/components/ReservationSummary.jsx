@@ -3,12 +3,15 @@ import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ReservationSummary = function (alert) {
+  const user = useSelector((state) => state.user);
   const [lastReservation, setLastReservation] = useState(null);
   const getReservations = () => {
     axios.get("/api/v1/reservations").then((res) => {
-      setLastReservation(res.data[res.data.length - 1]);
+      const filteredReservations = res.data.filter((reservation) => reservation.user_id === user.id);
+      setLastReservation(filteredReservations[filteredReservations.length - 1]);
     });
   };
   useEffect(() => {
@@ -16,7 +19,7 @@ const ReservationSummary = function (alert) {
   }, []);
   const date = new Date(lastReservation && lastReservation.date);
   return (
-    <Container>
+    <Container className="container-height">
       {lastReservation && (
         <>
           {alert && (

@@ -19,7 +19,7 @@ const SingleReservation = function () {
 
   console.log(products);
   return (
-    <Container>
+    <Container className="container-height">
       <h2>Dettagli ordine</h2>
       {order && (
         <>

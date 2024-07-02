@@ -29,7 +29,7 @@ const Login = function ({ unloggedMessage }) {
 
   return (
     <Container>
-      <Row className="justify-content-center" style={{ height: "calc(100vh - 216.8px - 32px - 56px)" }}>
+      <Row className="justify-content-center container-height">
         <Col xs={4} className="my-auto">
           <Form onSubmit={handleSubmit} noValidate>
             <div className="mb-3">

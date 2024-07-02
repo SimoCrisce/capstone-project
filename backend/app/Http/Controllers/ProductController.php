@@ -89,11 +89,11 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->name = $data['name'];
         $product->category = $data['category'];
-        $product->weight = $data['weight'];
+        if($request['weight']) $product->weight = $data['weight'];
         $product->price = $data['price'];
         if($request['img']){
             $file_path = Storage::put('/images', $request['img']);
-            $product->img = '/storage/' . $file_path;
+            if($file_path) $product->img = '/storage/' . $file_path;
         }
         $product->update();
     }
