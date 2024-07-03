@@ -9,10 +9,11 @@ import { useEffect, useState } from "react";
 import AddReview from "./AddReview";
 import Reviews from "./Reviews";
 import Card from "react-bootstrap/Card";
+import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const SingleProduct = function ({ cart, setCart }) {
+const SingleProduct = function ({ cart, setCart, editMessage, setEditMessage }) {
   const [amount, setAmount] = useState(1);
   const [products, setProducts] = useState(null);
   const [product, setProduct] = useState(null);
@@ -23,6 +24,12 @@ const SingleProduct = function ({ cart, setCart }) {
     setTimeout(() => {
       setUnloggedMessage(false);
     }, 5000);
+
+  if (editMessage) {
+    setTimeout(() => {
+      setEditMessage(false);
+    }, 5000);
+  }
   const { id } = useParams();
 
   const user = useSelector((state) => state.user);
@@ -71,6 +78,7 @@ const SingleProduct = function ({ cart, setCart }) {
 
   return (
     <Container>
+      {editMessage && <Alert variant="success">Prodotto modificato con successo!</Alert>}
       {product && (
         <Row>
           <Col xs={12} lg={6}>

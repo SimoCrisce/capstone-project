@@ -1,3 +1,7 @@
+body {
+  background-color: #f5f6f3;
+}
+
 .container-height {
   min-height: calc(100vh - 232.8px - 72px);
 }

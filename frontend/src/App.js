@@ -42,6 +42,8 @@ function App() {
 
   const [alert, setAlert] = useState(false);
 
+  const [editMessage, setEditMessage] = useState(false);
+
   useEffect(() => {
     axios("/api/user")
       .then((res) => dispatch(loginAction(res.data)))
@@ -57,7 +59,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<SingleProduct cart={cart} setCart={setCart} />} />
+          <Route
+            path="/product/:id"
+            element={
+              <SingleProduct cart={cart} setCart={setCart} editMessage={editMessage} setEditMessage={setEditMessage} />
+            }
+          />
           <Route path="/cake" element={<Cake />} />
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<Login />} />
@@ -65,7 +72,7 @@ function App() {
           </Route>
           <Route element={<AdminRoutes />}>
             <Route path="/product/add" element={<AddProduct />} />
-            <Route path="/product/edit/:id" element={<EditProduct />} />
+            <Route path="/product/edit/:id" element={<EditProduct setEditMessage={setEditMessage} />} />
           </Route>
           <Route element={<AuthRoutes />}>
             <Route

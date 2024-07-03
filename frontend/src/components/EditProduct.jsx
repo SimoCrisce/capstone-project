@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-const EditProduct = function () {
+const EditProduct = function ({ setEditMessage }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -45,7 +45,16 @@ const EditProduct = function () {
     form.weight && formD.append("weight", form.weight);
     img && formD.append("img", img);
 
-    axios.post("/api/v1/products/" + id + "?_method=PUT", formD);
+    axios
+      .post("/api/v1/products/" + id + "?_method=PUT", formD, {
+        validateStatus: function (status) {
+          return status >= 200 && status < 300;
+        },
+      })
+      .then((res) => {
+        getProduct();
+        setEditMessage(true);
+      });
   };
 
   const getProduct = () => {
@@ -83,9 +92,7 @@ const EditProduct = function () {
               <Col xs={6}>
                 <Form.Label>Categoria*</Form.Label>
                 <Form.Select onChange={(e) => updateInputValue(e)} name="category">
-                  <option selected disabled>
-                    Seleziona una categoria
-                  </option>
+                  <option>Seleziona una categoria</option>
                   <option value="bread">Pane</option>
                   <option value="snack">Tavola calda</option>
                   <option value="pastry">Pasticceria</option>

@@ -26,7 +26,7 @@ const Reservations = function () {
       {filteredOrders ? (
         <>
           {filteredOrders.length > 0 ? (
-            <table className="table">
+            <table className="table border border-black">
               <thead>
                 <tr>
                   <th scope="col">#</th>
